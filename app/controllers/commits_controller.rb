@@ -6,6 +6,11 @@ class CommitsController < ApplicationController
     render json: CommitSerializer.new(commit).as_json
   end
 
+  def diff
+    commit = @commit.commit_diff
+    render json: CommitDiffSerializer.new(commit).as_json
+  end
+
   private
 
   def commit_params

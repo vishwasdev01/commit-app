@@ -15,6 +15,15 @@ class CommitService
     JSON.parse(commit_details)
   end
 
+  def commit_diff
+    commit_diff = make_github_api_request("#{@base_url}~1", true)
+    commit_details = make_github_api_request(@base_url, false)
+    commit_details = JSON.parse(commit_details)
+    file_name = commit_details['files']&.last&.dig('filename')
+    status = commit_details['files']&.last&.dig('status')
+    { commit: commit_diff, file_name: file_name, status: status }
+  end
+
   private
 
   def make_github_api_request(uri, diff)
